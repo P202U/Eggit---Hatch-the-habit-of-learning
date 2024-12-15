@@ -1,4 +1,4 @@
-# EGGIT - Hatch the Habit of Learning Better
+# EGGIT - Hatch the Habit of Learning
 
 Welcome to **EGGIT**! This is a simple Flask web application designed to help users hatch the habit of learning better through personalized learning resources, scheduling, and user management. Built with **SQLite** as the database, this app includes basic user authentication and a clean interface for managing learning sessions.
 
