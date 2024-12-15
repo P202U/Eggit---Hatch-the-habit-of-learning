@@ -2,14 +2,13 @@
 content %}
 <div class="heading">
   <h1 class="display-1">
-    Hello
-    <span class="text-muted">@{{user.name}}</span>
+	  Hello, {{user.name.title()}}
   </h1>
 </div>
 
 <!-- form to change password and name -->
 <span class="text-muted"
-  >Login Id: {{user.registration_number}}</span
+  >Login Id: {{user.registration_number.upper()}}</span
 >
 <form action="" method="post" class="form">
   <div class="form-group">
@@ -72,5 +71,20 @@ content %}
 </form>
 
 {% endblock %} {% block style %}
+
+<style>
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+    border: 3px solid black;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+</style>
 
 {% endblock %}

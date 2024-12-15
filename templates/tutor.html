@@ -3,124 +3,375 @@
 {% block title %}Tutor Dashboard{% endblock %}
 
 {% block content %}
-<h1>Welcome, {{ user.name }} (Tutor)</h1>
+<div class="container-fluid py-4">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-5 fw-bold  mb-2">Welcome, {{ user.name.title() }}</h1>
+            <p class="text-muted lead">Manage your teaching schedule and view student requests</p>
+        </div>
+    </div>
 
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="d-flex gap-3 flex-wrap">
+                <a href="{{ url_for('create_slot') }}" class="btn btn-primary btn-lg quick-action-btn">
+                    <i class="bi bi-plus-circle-dotted fs-4 mb-2"></i>
+                    <span>Create New Slot</span>
+                </a>
+                <a href="#ongoing" class="btn btn-primary btn-lg quick-action-btn">
+                    <i class="bi bi-camera-video fs-4 mb-2"></i>
+                    <span>Ongoing Classes</span>
+                </a>
+                <a href="#slots" class="btn btn-primary btn-lg quick-action-btn text-white">
+                    <i class="bi bi-calendar2-week fs-4 mb-2"></i>
+                    <span>View All Slots</span>
+                </a>
+            </div>
+        </div>
+    </div>
 
-{% if user.role != 'admin' %}
-<div>
-  <h2>Notices</h2>
-  {% if notices %} {% for notice in notices %}
-  <h3>{{ notice.title }}</h3>
-  <p>{{ notice.content }}</p>
-  <small
-    >Posted on: {{ notice.created_at.strftime('%Y-%m-%d %H:%M') }}</small
-  >
-  <hr />
-  {% endfor %} {% else %}
-  <p>No notice available.</p>
-  {% endif %}
-</div>
-{% endif %}
-
-
-<section>
-    <h2>Your Details</h2>
-    <ul>
-        <li>Registration Number: {{ user.registration_number.split('_')[0] }}</li>
-        <li>Subject Expertise: {{ tutor.subject }}</li>
-        <li>Grade: {{ tutor.grade }}</li>
-        <li>Description: {{ tutor.description }}</li>
-        <li>Rating: {{ tutor.rating }}</li>
-    </ul>
-</section>
-<div class="text-center my-4">
-    <a href="{{ url_for('create_slot') }}" class="btn btn-primary">
-        Create Slot
-    </a>
-</div>
-
-<section>
-    <h2>Ongoing Slots</h2>
-
-    {% if ongoing %}
-    <table>
-        <thead>
-            <tr>
-                <th>Subject</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Duration</th>
-                <th>Created At</th>
-                <th>Gmeet_link</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for slot in ongoing %}
-            <tr>
-                <td>{{ slot.subject }}
-                </td>
-                <td>{{ slot.date.strftime('%Y-%m-%d') }}</td>
-                <td>{{ slot.time.strftime('%H:%M') }}</td>
-                <td>{{ slot.duration }} minutes</td>
-                <td>{{ slot.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                <td><a href="{{ slot.gmeet_link }}">{{ slot.gmeet_link }}</a></td>
-            </tr>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>No ongoing class.</p>
+    {% if user.role != 'admin' %}
+    <!-- Notices Section -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card border-0 shadow-sm notice-card">
+                <div class="card-header bg-primary text-white" style="background-color: #FFC107 !important; color: black !important;">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-bell-fill me-2"></i> 
+                        Important Notices
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if notices %}
+                        <div class="notices-container">
+                            {% for notice in notices %}
+                            <div class="notice-item {% if not loop.last %}border-bottom{% endif %} py-3">
+                                <h5 class="text-primary mb-2">{{ notice.title }}</h5>
+                                <p class="mb-2">{{ notice.content }}</p>
+                                <div class="notice-meta">
+                                    <span class="text-muted small">
+                                        <i class="bi bi-clock me-1"></i>
+                                        {{ notice.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+                                    </span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="bi bi-inbox text-muted display-4"></i>
+                            <p class="text-muted mt-3 mb-0">No notices available at the moment.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
     {% endif %}
-</section>
 
-<section>
-    <h2>Your Created Slots</h2>
+    <div class="row mb-4 g-4">
+        <!-- Tutor Details -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-primary text-white" style="background-color: #FFC107 !important; color: black !important;">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-person-badge-fill me-2"></i>
+                       Your Details 
+                    </h5>
+                </div>
+                <div class="card-body">
+                <div class="mb-3">
+                    <label class="text-muted small">ID Number</label>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-person-vcard me-2"></i>
+                        <h5 class="mb-0">{{ user.registration_number.split('_')[0].upper() }}</h5>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted small">Subject</label>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-book me-2"></i>
+                        <h5 class="mb-0">{{ tutor.subject }}</h5>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted small">Grade Level</label>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-mortarboard me-2"></i>
+                        <h5 class="mb-0">{{ tutor.grade }}</h5>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted small">Rating</label>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-star-fill me-2"></i>
+                        <h5 class="mb-0">{{ "%.1f"|format(tutor.rating) }} / 5.0</h5>
+                    </div>
+                </div>
+                <div class="mb-3">
+			<label class="text-muted small">About Me</label>
+                    <p class="mb-0">{{ tutor.description }}</p>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <!-- Ongoing Classes -->
+        <div class="col-md-6" id="ongoing">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-primary text-white" style="background-color: #FFC107 !important; color: black !important;">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-camera-video-fill me-2"></i>
+                        Ongoing Classes
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if ongoing %}
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Date & Time</th>
+                                    <th>Duration</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for slot in ongoing %}
+                                <tr>
+                                    <td>
+                                        <span class="fw-medium">{{ slot.subject }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex flex-column">
+                                            <span>{{ slot.date.strftime('%b %d, %Y') }}</span>
+                                            <small class="text-muted">{{ slot.time.strftime('%I:%M %p') }}</small>
+                                        </div>
+                                    </td>
+                                    <td>{{ slot.duration }} min</td>
+                                    <td>
+                                        <a href="{{ slot.gmeet_link }}" class="btn btn-success btn-sm" target="_blank">
+                                            <i class="bi bi-camera-video-fill me-1"></i> Join Now
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="bi bi-calendar2-x text-muted display-4"></i>
+                        <p class="text-muted mt-3 mb-0">No ongoing classes at the moment.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 
-    {% if slots and slots|length > 0 %}
-    <table>
-        <thead>
-            <tr>
-                <th>Subject</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Duration</th>
-                <th>Created At</th>
-                <th>Gmeet Link</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for slot in slots|sort(attribute='date') %}
-            <tr>
-                <td>
-                    <form action="/slot_request/{{ slot.id }}" method="POST">
-                        <a href="#" onclick="this.closest('form').submit()">{{ slot.subject }}</a>
-                    </form>
-                </td>
-                <td>{{ slot.date.strftime('%Y-%m-%d') }}</td>
-                <td>{{ slot.time.strftime('%H:%M') }}</td>
-                <td>{{ slot.duration }} minutes</td>
-                <td>{{ slot.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                <td><a href="{{ slot.gmeet_link }}">{{ slot.gmeet_link }}</a></td>
-            </tr>
-            <tr>
-                <td colspan="6">
-                    <a href="?delete=true&slot_id={{ slot.id }}">
-                        <button>Delete slot</button>
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>No slots created yet.</p>
-    {% endif %}
-</section>
+    <!-- All Slots -->
+    <div class="row" id="slots">
+        <div class="col">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white" style="background-color: #FFC107 !important; color: black !important;">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-calendar2-week-fill me-2"></i>
+                        Teaching Schedule
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if slots %}
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Date & Time</th>
+                                    <th>Duration</th>
+                                    <th>Created</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for slot in slots %}
+                                <tr>
+                                    <td>
+                                        <form action="/slot_request/{{ slot.id }}" method="POST" class="d-inline">
+                                            <a href="#" onclick="this.closest('form').submit()" class="text-decoration-none text-primary fw-medium">
+                                                {{ slot.subject }}
+                                            </a>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex flex-column">
+                                            <span>{{ slot.date.strftime('%b %d, %Y') }}</span>
+                                            <small class="text-muted">{{ slot.time.strftime('%I:%M %p') }}</small>
+                                        </div>
+                                    </td>
+                                    <td>{{ slot.duration }} min</td>
+                                    <td>
+                                        <small class="text-muted">
+                                            {{ slot.created_at.strftime('%b %d, %Y') }}
+                                        </small>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group">
+                                            {% if slot.gmeet_link %}
+                                            <a href="{{ slot.gmeet_link }}" class="btn btn-success btn-sm" target="_blank" data-bs-toggle="tooltip" title="Join Meeting">
+                                                <i class="bi bi-camera-video-fill"></i>
+                                            </a>
+                                            {% endif %}
+                                            <a href="?delete=true&slot_id={{ slot.id }}" class="btn btn-danger btn-sm" data-bs-toggle="tooltip" title="Delete Slot">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="bi bi-calendar-x text-muted display-4"></i>
+                        <p class="text-muted mt-3">No slots created yet.</p>
+                        <a href="{{ url_for('create_slot') }}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-2"></i>Create Your First Slot
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
+{% block extra_css %}
+<style>
+    /* Quick Action Buttons */
+    .quick-action-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        min-width: 160px;
+        transition: all 0.3s ease;
+    }
+    .quick-action-btn:hover {
+        transform: translateY(-3px);
+    }
 
-<form action="/tutor/slots_history" method="POST">
-    <a href="#" onclick="this.closest('form').submit()">Show completed slots</a>
-  </form>
+    /* Cards */
+    .card {
+        transition: transform 0.2s ease-in-out;
+        border-radius: 0.75rem;
+    }
+    .card:hover {
+        transform: translateY(-2px);
+    }
+    .card-header {
+        border-radius: 0.75rem 0.75rem 0 0 !important;
+        padding: 1rem 1.25rem;
+    }
+    .bg-gradient {
+        background: linear-gradient(45deg, var(--bs-primary), #2c7be5);
+        color: white;
+    }
 
+    /* Notice Card */
+    .notice-card .notice-item {
+        transition: background-color 0.2s ease;
+        padding: 1rem;
+        border-radius: 0.5rem;
+    }
+    .notice-card .notice-item:hover {
+        background-color: var(--bs-light);
+    }
+    .notice-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    /* Profile Stats */
+    .profile-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--bs-light);
+    }
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        font-size: 1.5rem;
+    }
+    .stat-info {
+        display: flex;
+        flex-direction: column;
+    }
+    .stat-label {
+        font-size: 0.875rem;
+        color: var(--bs-gray-600);
+    }
+    .stat-value {
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    /* Custom Table */
+    .custom-table {
+        --bs-table-hover-bg: var(--bs-light);
+    }
+    .custom-table thead th {
+        background-color: var(--bs-light);
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.5px;
+    }
+    .custom-table td {
+        vertical-align: middle;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .profile-stats {
+            grid-template-columns: 1fr;
+        }
+        .quick-action-btn {
+            width: 100%;
+        }
+    }
+
+    /* Empty State Icons */
+    .bi-inbox, .bi-calendar-x, .bi-calendar2-x {
+        opacity: 0.5;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
 {% endblock %}
