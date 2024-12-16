@@ -17,3 +17,4 @@ instance/
 
 # SQLite databases
 *.sqlite3
+.vercel
