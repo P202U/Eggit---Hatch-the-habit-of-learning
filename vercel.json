@@ -1,9 +1,17 @@
 {
-    "version": 2,
-    "builds": [
-      { "src": "app.py", "use": "@vercel/python" }
-    ],
-    "routes": [
-      { "src": "/(.*)", "dest": "/app.py" }
-    ]
-  }
+  "version": 2,
+  "builds": [
+    { "src": "app.py", "use": "@vercel/python" }
+  ],
+  "env": {
+    "FLASK_APP": "app.py",
+    "FLASK_ENV": "production",
+    "DATABASE_URL": "postgresql://eggit_postgresql_user:Evk5bVBYHmTUR5dmQHYbMeZU76xy0fLv@dpg-ctgl53qj1k6c73a2vbtg-a.oregon-postgres.render.com/eggit_postgresql"
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/app.py"
+    }
+  ]
+}
