@@ -9,11 +9,8 @@
             <div class="card border-0 shadow-sm welcome-card">
                 <div class="card-body p-4">
                     <div class="d-flex align-items-center">
-                        <div class="avatar-circle bg-primary text-white me-4">
-                            <i class="bi bi-shield-lock-fill"></i>
-                        </div>
                         <div>
-                            <h1 class="display-6 mb-1">Welcome, {{ user.name }}</h1>
+                            <h1 class="display-6 mb-1">Welcome, {{ user.name.title() }}</h1>
                             <p class="text-muted mb-0">
                                 <i class="bi bi-shield-check me-2"></i>
                                 Administrator Dashboard
@@ -37,14 +34,14 @@
                     </button>
                 </form>
                 <form action="/admin/show_students" method="POST" class="flex-grow-1">
-                    <button class="btn btn-info quick-action-btn w-100 text-white" type="submit">
+                    <button class="btn btn-primary quick-action-btn w-100 text-white" type="submit">
                         <i class="bi bi-mortarboard fs-4 mb-2"></i>
                         <span>Manage Students</span>
                         <small class="d-block text-white-50">View and manage student accounts</small>
                     </button>
                 </form>
                 <form action="/admin/show_slots" method="POST" class="flex-grow-1">
-                    <button class="btn btn-success quick-action-btn w-100" type="submit">
+                    <button class="btn btn-primary quick-action-btn w-100" type="submit">
                         <i class="bi bi-calendar2-week fs-4 mb-2"></i>
                         <span>View All Slots</span>
                         <small class="d-block text-white-50">Monitor teaching sessions</small>
@@ -58,7 +55,7 @@
         <!-- Create Notice Section -->
         <div class="col-lg-5">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-gradient border-0">
+                <div class="card-header bg-primary text-white" style="background-color: #FFC107 !important; color: black !important;">
                     <h5 class="card-title mb-0">
                         <i class="bi bi-megaphone-fill me-2"></i>
                         Create New Notice
@@ -98,7 +95,7 @@
         <!-- Previous Notices Section -->
         <div class="col-lg-7">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-gradient border-0 d-flex justify-content-between align-items-center">
+		<div class="card-header bg-primary text-white d-flex justify-content-between align-items-center" style="background-color: #FFC107 !important; color: black !important;">
                     <h5 class="card-title mb-0">
                         <i class="bi bi-clock-history me-2"></i>
                         Previous Notices

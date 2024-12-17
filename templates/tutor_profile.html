@@ -10,12 +10,12 @@
                 <div class="card-body p-4">
                     <div class="d-flex align-items-center">
                         <div class="profile-avatar me-4">
-                            <div class="avatar-circle bg-primary text-white">
+                            <div class="avatar-circle ">
                                 {{ tutor.user.name[0].upper() }}
                             </div>
                         </div>
                         <div>
-                            <h1 class="display-6 mb-1">{{ tutor.user.name }}</h1>
+                            <h1 class="display-6 mb-1">{{ tutor.user.name.title() }}</h1>
                             <p class="text-muted mb-0">
                                 <i class="bi bi-person-badge me-2"></i>
                                 ID: {{ tutor.registration_number.split('_')[0] }}
@@ -30,9 +30,9 @@
         <div class="col-md-8">
             <!-- Expertise Card -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-white border-0 py-3">
+                <div class="card-header bg-primary text-white" style="background-color: #FFC107 !important; color: black !important;">
                     <h5 class="card-title mb-0">
-                        <i class="bi bi-book me-2 text-primary"></i>
+                        <i class="bi bi-book me-2 "></i>
                         Teaching Details
                     </h5>
                 </div>
@@ -66,9 +66,9 @@
 
             <!-- Description Card -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-white border-0 py-3">
+                <div class="card-header bg-primary text-white" style="background-color: #FFC107 !important; color: black !important;">
                     <h5 class="card-title mb-0">
-                        <i class="bi bi-file-text me-2 text-primary"></i>
+                        <i class="bi bi-file-text me-2 "></i>
                         About Me
                     </h5>
                 </div>
@@ -103,15 +103,15 @@
 
             <!-- Quick Stats -->
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white border-0 py-3">
+                <div class="card-header bg-primary text-white" style="background-color: #FFC107 !important; color: black !important;">
                     <h5 class="card-title mb-0">
-                        <i class="bi bi-graph-up me-2 text-primary"></i>
+                        <i class="bi bi-graph-up me-2 "></i>
                         Quick Stats
                     </h5>
                 </div>
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-3">
-                        <div class="icon-box me-3 bg-success bg-opacity-10 text-success">
+                        <div class="icon-box me-3 bg-info bg-opacity-10 text-info">
                             <i class="bi bi-calendar-check"></i>
                         </div>
                         <div>

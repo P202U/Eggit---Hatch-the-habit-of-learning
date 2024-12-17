@@ -204,7 +204,7 @@
                     {% if slots and slots|length > 0 %}
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0">
-                            <thead class="table-light">
+                            <thead class="table">
                                 <tr>
                                     <th>Tutor</th>
                                     <th>Subject</th>
@@ -219,7 +219,9 @@
                                 <tr>
                                     <td>
                                         <i class="bi bi-person-circle text-primary me-2"></i>
-                                        {{ slot.tutor_name }}
+					<form action="/tutor_profile/{{ slot.tutor_registration_number }}" method="POST">
+        					<a href="#" onclick="this.closest('form').submit()">{{ slot.tutor_name.title() }}</a>
+      					</form>
                                     </td>
                                     <td>{{ slot.subject }}</td>
                                     <td>{{ slot.date.strftime('%B %d, %Y') }}</td>
